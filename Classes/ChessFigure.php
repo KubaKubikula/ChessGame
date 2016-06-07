@@ -11,6 +11,14 @@ abstract class ChessFigure {
     public $name = null;
 
 
+    /**
+    * @return string
+    */
+    public function name()
+    {
+      return static::class;
+    }
+
     public function drawFigure(){
 
     }

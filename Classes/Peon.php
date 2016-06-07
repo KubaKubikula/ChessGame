@@ -8,7 +8,12 @@ class Peon extends ChessFigure{
 
 
     public function drawFigure(){
-        return "<img src='/images/figures/peon.png' width='30' height='50' style='cursor:move' >";
+        
+        if($this->color == "white") {
+            return "<img src='/images/figures2/wpeon.png' width='30' height='62' style='cursor:move' >";
+        } else {
+            return "<img src='/images/figures2/bpeon.png' width='30' height='62' style='cursor:move' >";
+        }
     }
 
     public function posibleMovements($x, $y) {

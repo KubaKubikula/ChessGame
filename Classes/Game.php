@@ -26,11 +26,19 @@ class Game{
         }
     }
 
-    public function moveChessFigure($move) {
-        /*$moveData = explode(":",$move);
 
-        if($posibleMovements = $this->ground->showMovements($moveData[0]))) {
+    /**
+    *
+    *       Am I on move ?
+    */
+    public function moveChessFigure($move) {
+        $moveData = explode("-",$move);
+
+        if($posibleMovements = $this->ground->getMovements($moveData[0])) {
             $canIGoHere = false;
+
+            $moveData[0] = Ground::convertDimensions($moveData[0]);
+            $moveData[1] = Ground::convertDimensions($moveData[1]);
 
             foreach($posibleMovements as $movement) {
                 if($moveData[1][0] == $movement[0] AND $moveData[1][1] == $movement[1]){
@@ -39,29 +47,41 @@ class Game{
             }
 
             if($canIGoHere) {
-                   
+                   if($this->ground->dimensions[$moveData[0][0]][$moveData[0][1]] instanceof ChessFigure) {
+                        $chessFigure = $this->ground->dimensions[$moveData[0][0]][$moveData[0][1]];
+                        
+                        $this->ground->insertFigure($chessFigure, $moveData[1][0], $moveData[1][1]);
+                        $this->ground->deleteFigure($moveData[0][0], $moveData[0][1]);
+
+                        $this->actualState[$moveData[1][0]][$moveData[1][1]] = array($chessFigure->name(), $chessFigure->color);
+                        unset($this->actualState[$moveData[0][0]][$moveData[0][1]]);
+                   }
+            } else {
+               $this->ground->messages[] = "You can not go here"; 
             }
-        } */
+
+
+        } 
     }
 
     public function start() {
 
-        $this->actualState[2][2] = array("Peon","blue");
-        $this->actualState[2][3] = array("Peon","blue");
-        $this->actualState[2][4] = array("Peon","blue");
-        $this->actualState[2][5] = array("Peon","blue");
-        $this->actualState[2][6] = array("Peon","blue");
-        $this->actualState[2][7] = array("Peon","blue");
-        $this->actualState[2][8] = array("Peon","blue");
-        $this->actualState[2][9] = array("Peon","blue");
-        $this->actualState[1][2] = array("Tower","blue");
-        $this->actualState[1][3] = array("Tower","blue");
-        $this->actualState[1][4] = array("Bishop","blue");
-        $this->actualState[1][5] = array("Bishop","blue");
-        $this->actualState[1][6] = array("Knight","blue");
-        $this->actualState[1][7] = array("Knight","blue");
-        $this->actualState[1][8] = array("Queen","blue");
-        $this->actualState[2][9] = array("King","blue");
+        $this->actualState[2][2] = array("Peon","white");
+        $this->actualState[2][3] = array("Peon","white");
+        $this->actualState[2][4] = array("Peon","white");
+        $this->actualState[2][5] = array("Peon","white");
+        $this->actualState[2][6] = array("Peon","white");
+        $this->actualState[2][7] = array("Peon","white");
+        $this->actualState[2][8] = array("Peon","white");
+        $this->actualState[2][9] = array("Peon","white");
+        $this->actualState[1][2] = array("Tower","white");
+        $this->actualState[1][3] = array("Tower","white");
+        $this->actualState[1][4] = array("Bishop","white");
+        $this->actualState[1][5] = array("Bishop","white");
+        $this->actualState[1][6] = array("Knight","white");
+        $this->actualState[1][7] = array("Knight","white");
+        $this->actualState[1][8] = array("Queen","white");
+        $this->actualState[2][9] = array("King","white");
 
         $this->actualState[7][2] = array("Peon","black");
         $this->actualState[7][3] = array("Peon","black");

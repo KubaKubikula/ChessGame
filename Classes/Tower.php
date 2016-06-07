@@ -8,7 +8,13 @@ class Tower extends ChessFigure{
 
 
     public function drawFigure(){
-        return "<img src='/images/figures/tower.png' width='30' height='62' style='cursor:move' >";
+
+        if($this->color == "white") {
+            return "<img src='/images/figures2/wtower.png' width='50' height='62' style='cursor:move' >";
+        } else {
+            return "<img src='/images/figures2/btower.png' width='50' height='62' style='cursor:move' >";
+        }
+        
     }
 
     

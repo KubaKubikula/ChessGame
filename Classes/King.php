@@ -8,7 +8,11 @@ class King extends ChessFigure{
 
 
     public function drawFigure(){
-        return "<img src='/images/figures/king.png' width='30' height='72' style='cursor:move' >";
+        if($this->color == "white") {
+            return "<img src='/images/figures2/wking.png' width='50' height='62' style='cursor:move' >";
+        } else {
+            return "<img src='/images/figures2/bking.png' width='50' height='62' style='cursor:move' >";
+        }
     }
 
 

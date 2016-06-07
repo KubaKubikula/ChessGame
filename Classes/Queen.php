@@ -8,7 +8,11 @@ class Queen extends ChessFigure{
 
 
     public function drawFigure(){
-        return "<img src='/images/figures/queen.png' width='30' height='70' style='cursor:move' >";
+        if($this->color == "white") {
+            return "<img src='/images/figures2/wqueen.png' width='50' height='62' style='cursor:move' >";
+        } else {
+            return "<img src='/images/figures2/bqueen.png' width='50' height='62' style='cursor:move' >";
+        }
     }
 
     public function posibleMovements($x, $y) {

@@ -3,11 +3,9 @@
 <head>
 
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="jquery-ui.min.js"></script>
  
-
-
 <style>
 
 *{
@@ -34,9 +32,10 @@ table td:hover{
 
 .messagebox {
     border: 1px black dotted;
-
-    width:300px;
-    height:100px;
+    padding:5px;
+    width:400px;
+    height:200px;
+    overflow: scroll;
 }
 
 .ground {
@@ -55,6 +54,14 @@ table td:hover{
     width:80px;
 }
 
+.rightbox{
+
+    margin-left:20px;
+
+    padding-top:40px;
+    float:left;
+}
+
 </style>
 
 <script type="text/javascript">
@@ -62,16 +69,28 @@ table td:hover{
 $( init );
  
 function init() {
-  $('img').draggable();
+  $('img').draggable({
+      cursor: 'move',
+      revert: true
+  });
   $('td').droppable( {
     drop: handleDropEvent
     
-  } );
+  });
 }
  
 function handleDropEvent( event, ui ) {
   var draggable = ui.draggable;
-  alert( 'The square with ID "' + draggable.attr('id') + '" was dropped onto me!' );
+
+  alert( 'The square with ID "' + $(this).attr('id') + '" was dropped onto me!' );
+
+  /*$.ajax("",
+
+  );*/
+
+  // if correct save position redraw
+
+  // if not do nothing
 }
  
 </script>
@@ -81,7 +100,7 @@ function handleDropEvent( event, ui ) {
 
 <? $i = 1;$j = 1; ?>
 
-<div class="ground" style="margin:0 auto;width:100%;">
+<div class="ground" style="float:left;">
 
     <table>
         <tr>
@@ -106,7 +125,7 @@ function handleDropEvent( event, ui ) {
             }
 
              ?>   
-            <td class="<? if($j == 1){ echo "first" ;} ?>" <? echo $color; ?> >
+            <td id="<? echo $i . "" . $j; ?>" class="<? if($j == 1){ echo "first" ;} ?>" <? echo $color; ?> >
                 <? echo  ($j == 1 ? $i : "" ) ;?>
                 <? if(isset($figures[$i]) AND isset($figures[$i][$j])) { echo "<span style='color:".$figures[$i][$j]->color."' >" . $figures[$i][$j]->drawFigure() . "</span>";} ?>
             </td>
@@ -115,15 +134,21 @@ function handleDropEvent( event, ui ) {
         <? } ?>
     </table>
 </div>
-
+<div class="rightbox">
 Messages:
 <div class="messagebox">
+    <? foreach( $messages as $message ) { ?>
+         <div class="message"><? echo $message; ?></div>
+    <? } ?>
+
 </div>
 <div style="padding-top:10px;">
     <form method="POST" action="/" >    
-        Move figure: <input type="text" name="movefigure" /> <input type="submit" name="moveaction" value="Move" />
+        Move figure: <input type="text" name="movefigure" value="<? if(isset($_POST["movefigure"])) { echo $_POST["movefigure"];} ?>" /> <input type="submit" name="moveaction" value="Move" />
     </form>
 </div>
+</div>
+<div style="clear:both">
 
 
 </div>

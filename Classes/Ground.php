@@ -6,6 +6,8 @@ class Ground{
 
     public $posibleMovements = array();
 
+    public $messages = array();
+
     public function __construct() {
         
     }
@@ -13,7 +15,7 @@ class Ground{
     public function insertFigure(ChessFigure $figure,$x,$y) {
 
         if(isset($this->dimensions[$x]) AND isset($this->dimensions[$x][$y]) AND $this->dimensions[$x][$y] instanceof ChessFigure) {
-            var_dump(" Some figure is already standing on this field.");
+            $this->messages[] = " Some figure is already standing on this field.";
         } else {
             $this->dimensions[$x][$y] = $figure; 
         }
@@ -26,7 +28,7 @@ class Ground{
     
     public function showMovements($figureDimensions) {
 
-        $this->convertDimensions($figureDimensions);
+        $figureDimensions = self::convertDimensions($figureDimensions);
 
         if($figureDimensions) {
 
@@ -37,7 +39,7 @@ class Ground{
                 return $this->posibleMovements = $chessFigure->posibleMovements( $figureDimensions[0],$figureDimensions[1] );
 
             } else {
-                var_dump("There is no figure.");
+                $this->messages[] = "There is no figure";
                 
                 return false;
             }
@@ -45,14 +47,33 @@ class Ground{
 
     }
 
-    public function moveChessFigure($figureDimensionsToDimensions) {
+    public function getMovements($figureDimensions) {
+
+        $figureDimensions = self::convertDimensions($figureDimensions);
+
+        if($figureDimensions) {
+
+            if(isset($this->dimensions[$figureDimensions[0]][$figureDimensions[1]]) AND $this->dimensions[$figureDimensions[0]][$figureDimensions[1]] instanceOf ChessFigure) {
+                
+                $chessFigure = $this->dimensions[$figureDimensions[0]][$figureDimensions[1]];
+
+                return $chessFigure->posibleMovements( $figureDimensions[0],$figureDimensions[1] );
+
+            } else {
+                $this->messages[] = "There is no figure";
+                
+                return false;
+            }
+        }
 
     }
 
+    
 
-    public function convertDimensions($figureDimensions) {
 
-        $letters = array("A","B","C","D","E","F","G","H");
+    public static function convertDimensions($figureDimensions) {
+
+        $letters = array(2 => "A",3 => "B",4 => "C",5 => "D",6 => "E",7 => "F",8 => "G", 9 => "H");
 
         foreach($letters as $key => $value) {
             if($figureDimensions[1] == $value) {
@@ -69,6 +90,8 @@ class Ground{
         $figures = $this->dimensions;
 
         $posibleMovements = $this->posibleMovements;
+
+        $messages = $this->messages;
         
         include(dirname(__FILE__) . "/Templates/GroundTemplate.php");
     }
